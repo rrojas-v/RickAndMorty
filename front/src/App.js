@@ -1,15 +1,15 @@
-import Cards from './components/Cards.jsx'
-import Nav from './components/Nav.jsx'
+import Cards from './components/Cards/Cards.jsx'
+import Nav from './components/Nav/Nav.jsx'
 import styled from 'styled-components';
 import React, { useState } from 'react'; 
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 //import Home from './components/Home';
-import About from './components/About.jsx';
-import Detail from './components/Detail.jsx';
-import Form from './components/Form.jsx';
-
+import About from './components/About/About.jsx';
+import Detail from './components/Detail/Detail.jsx';
+import Form from './components/Login/Form.jsx';
+import NotFound from './components/NotFound/NotFound.jsx';
 
 function App () {
 
@@ -31,12 +31,13 @@ function App () {
   }  
 
   const onSearch = (character) => {
-    console.log('ejecutando onSearch');
+    //console.log('ejecutando onSearch', character);
     if (characters.filter(c=>c.id == character).length > 0) {
       alert('personaje repetido');
     }else{
       
-       fetch(`https://rickandmortyapi.com/api/character/${character}`)
+       //fetch(`https://rickandmortyapi.com/api/character/${character}`)
+       fetch(`http://localhost:3001/rickandmorty/character/${character}`)
         .then((response) => response.json())
         .then((data) => {
           
@@ -50,6 +51,7 @@ function App () {
           else {
               window.alert('No hay personajes con ese ID');
           }
+
         });
     }
     //console.log(characters);
@@ -58,7 +60,7 @@ function App () {
   const navigate = useNavigate();
   const login = function(userData) {
 
-    console.log('login', userData);
+    //console.log('login', userData);
 
     if (userData.username === username && userData.password === password) {
       setAccess(true);
@@ -68,11 +70,11 @@ function App () {
       alert('Usuario y/o contrasena incorrectos');
     }
   }
-  useEffect(() => {
+  useEffect(() => {    
     
-    console.log('useEffect()', 'access', access);
-
+    //console.log('useEffect()', 'access', access);
     !access && navigate('/');
+
   }, [access]);
 
   return (
@@ -81,11 +83,12 @@ function App () {
       {location.pathname !== '/' && <Nav onSearch={onSearch}/>}
       <hr />
       
-       <Routes>
+      <Routes>
+       <Route exact path='/' element={<Form login={login}/>}></Route>
         <Route path="/home" element={<Cards characters={characters} onClose={onCloseCard} />}></Route>
         <Route path='/about' element={<About/>}></Route>
         <Route path='/detail/:detailid' element={<Detail/>}></Route>
-        <Route exact path='/' element={<Form login={login}/>}></Route>
+        <Route path='*' element={<NotFound/>}></Route>
       </Routes> 
 
     </div>

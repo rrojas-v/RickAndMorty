@@ -1,6 +1,6 @@
 //import React from "react";
 import Cards from './Cards.jsx';
-import Nav from './Nav.jsx'
+import Nav from '../Nav/Nav.jsx'
 import styled from 'styled-components';
 
 

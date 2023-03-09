@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar/SearchBar";
 
 export default function Nav(props) {
 

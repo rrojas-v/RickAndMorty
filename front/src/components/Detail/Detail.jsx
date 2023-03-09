@@ -18,9 +18,7 @@ export default function Detail() {
     const navigate = useNavigate();
 
     useEffect(() => {
-
         console.log(`Ejecutando useEffect ${detailid}`);        
-
         fetch(`https://rickandmortyapi.com/api/character/${detailid}`)
           .then((response) => response.json())
           .then((character) => {
@@ -39,22 +37,26 @@ export default function Detail() {
       //console.log(character);
 
     const toHome = function() {
-        navigate("/");
+        navigate("/Home");
     }
 
     return (
-        <div>
-            <button onClick={toHome}>Home</button>
-            <div style={{display:'flex', justifyContent:'center'}}> 
-                <img src={character.image}/>
-                <Span>
-                    <h1>Nombre: {character.name}</h1>                
-                    <h2>Estatus: {character.status}</h2>
-                    <h2>Specie: {character.specie}</h2>                
-                    <h2>Genero: {character.gender}</h2>                    
-                    <h2>Origen: {(character.origin)?character.origin.name:''}</h2>                    
-                </Span>      
-            </div>
-        </div>
+      <>
+        {character ? (
+          <div>
+              <div style={{display:'flex', justifyContent:'center'}}> 
+                  <img src={character.image}/>
+                  <Span>
+                      <h1>Nombre: {character.name}</h1>                
+                      <h2>Estatus: {character.status}</h2>
+                      <h2>Specie: {character.species}</h2>                
+                      <h2>Genero: {character.gender}</h2>                    
+                      <h2>Origen: {(character.origin)?character.origin.name:''}</h2>
+                  </Span>      
+              </div>
+              <button onClick={toHome}>Home</button>
+          </div>
+        ) : ("")}
+        </>
     );
 }
