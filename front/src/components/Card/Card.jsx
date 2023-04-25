@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { addFav, remFav } from "../redux/actions";
+import { useState } from "react";
+import { connect } from "react-redux";
 
 const Img = styled.img`
    border-radius: 70%;
@@ -15,14 +18,35 @@ const Div = styled.div`
    background-color:orange;
    color:white;
 `;
-//
 
-export default function Card(props) {
 
-   console.log(props.name);
+
+function Card(props) {
+
+   console.log(props);
+
+   const [isFav, setIsFav] = useState(false);
+   const handleFavorite = () => {
+      if (isFav) {
+         setIsFav(false);
+         remFav(props.id);
+      }
+      else {
+         setIsFav(true);
+         addFav(props)        
+      }
+   };
 
    return (
          <Div>
+            {
+               isFav ? (
+                  <button onClick={handleFavorite}>❤️</button>
+               ) : (
+                  <button onClick={handleFavorite}>🤍</button>
+               )
+            }
+
             <button onClick={() => props.onClose(props.name)}>X</button>
             <Link to={`/detail/${props.id}`}>
                <h2>Name: {props.name}</h2>
@@ -35,3 +59,23 @@ export default function Card(props) {
          </Div>
    );
 }
+
+const mapStateToProps = state => {
+   const { myFavorites } = state;
+   return {
+      myFavorites
+   }
+}
+
+const mapDispatchToProps = (dispatch) => {
+   return {
+      addFav: character => {
+         dispatch(addFav(character))
+      },
+      remFav: id => {
+         dispatch(remFav(id))
+      }
+   }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

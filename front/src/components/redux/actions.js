@@ -8,7 +8,7 @@ export const addFav = character => {
     }
 }
 
-export const removeFav = id => {
+export const remFav = id => {
     return { 
         type: REMOVE_FAV,
         payload: id

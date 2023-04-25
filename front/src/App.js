@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
+
 //import Home from './components/Home';
 import About from './components/About/About.jsx';
 import Detail from './components/Detail/Detail.jsx';
@@ -13,6 +14,8 @@ import NotFound from './components/NotFound/NotFound.jsx';
 
 function App () {
 
+  //dotenv.config();
+  
   const [characters, setCharacters] = React.useState([]);
   const [access, setAccess] = React.useState(false);
   let username = 'rick';
@@ -31,22 +34,26 @@ function App () {
   }  
 
   const onSearch = (character) => {
-    //console.log('ejecutando onSearch', character);
+    console.log('ejecutando onSearch', character);
     if (characters.filter(c=>c.id == character).length > 0) {
       alert('personaje repetido');
     }else{
-      
+
+      //console.log('process.env.REACT_APP_APIBACKENDURL',process.env.REACT_APP_APIBACKENDURL);
+      //console.log('process.env.REACT_APP_APIBACKENDURL',process.env);
+
        //fetch(`https://rickandmortyapi.com/api/character/${character}`)
-       fetch(`http://localhost:3001/rickandmorty/character/${character}`)
+       //fetch(`http://localhost:3001/rickandmorty/character/${character}`)
+       fetch(`${process.env.REACT_APP_APIBACKENDURL}character/${character}`)
         .then((response) => response.json())
         .then((data) => {
           
           //console.log(data);
 
           if (data.name) {
-              setCharacters(
-                (characters) => [...characters, data]
-              );
+            setCharacters(
+              (characters) => [...characters, data]
+            );
           } 
           else {
               window.alert('No hay personajes con ese ID');

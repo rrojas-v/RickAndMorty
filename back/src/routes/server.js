@@ -1,5 +1,6 @@
 const http = require('http');
 //const url = require("url");
+const dotenv = require('dotenv');
 
 // en el back es require
 // en el from es import
@@ -7,7 +8,14 @@ const http = require('http');
 //const { number } = require('prop-types');
 const data = require('../utils/data.js');
 
-const httpPort = 3001;
+dotenv.config();
+
+//const httpPort = 3002;
+const NAMESERVER = process.env.REACT_APP_NAMESERVER; //'localhost';
+const PORT = parseInt(process.env.REACT_APP_PORT);
+
+console.log('Starting server on: ', NAMESERVER, ':', PORT);
+
 const httpServer = http.createServer((req, res)=>{
 
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,5 +34,5 @@ const httpServer = http.createServer((req, res)=>{
     res.writeHead(404, { 'Content-Type':'text/plain' });
     res.end("Route not found");    
 
-}).listen(httpPort, 'localhost');
+}).listen(PORT, NAMESERVER);
 module.exports = httpServer;
